@@ -1,3 +1,5 @@
+import Position from "./structs/position.js";
+
 export default class Shape {
   pos;
   type;
@@ -29,29 +31,28 @@ export default class Shape {
   }
 
   test() {
-    console.log(`Type : ${this.type}, Pos : ${this.pos}`);
+    console.log(`Type : ${this.type}, Pos : ${this.pos.to_string()}`);
   }
 
   init_points(type) {
-
     switch (type) {
       case "I":
-        this.points = ["0,0", "0,1", "0,2", "0,3"];
+        this.points = [new Position(0,0), new Position(0,1), new Position(0,2), new Position(0,3)];
         break;
       case "O" :
-        this.points =["0,0", "1,0", "0,1", "1,1"];
+        this.points =[new Position(0,0), new Position(1,0), new Position(0,1), new Position(1,1)];
         break;
       case "T":
-        this.points = ["0,0", "-1,0", "1,0", "0,1"];
+        this.points = [new Position(0,0), new Position(-1,0), new Position(1,0), new Position(0,1)];
         break;
       case "J":
-        this.points = ["0,0", "0,1", "0,2", "-1,2"];
+        this.points = [new Position(0,0), new Position(0,1), new Position(0,2), new Position(-1,2)];
         break;
       case "L":
-        this.points = ["0,0", "0,1", "0,2", "1,2"];
+        this.points = [new Position(0,0), new Position(0,1), new Position(0,2), new Position(1,2)];
         break;
       case "S" :
-        this.points = ["0,0", "1,0", "0,1", "-1,1"];
+        this.points = [new Position(0,0), new Position(1,0), new Position(0,1), new Position(-1,1)];
         break;
       default:
         break;
