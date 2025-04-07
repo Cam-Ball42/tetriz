@@ -11,7 +11,7 @@ const current_shapes = [];
 const game_state = new Map();
 
 init_state(game_state);
-let test_shape = new Shape("T", new Position(5, 10), 3);
+let test_shape = new Shape("T", new Position(4,7), 3);
 add_shape(test_shape);
 
 sync_state(game_state, current_shapes);
@@ -24,13 +24,14 @@ const canvas = document.getElementById("canvas");
 let ctx;
 if(canvas.getContext) {
   ctx = canvas.getContext("2d");
+  drawTools.init_tools(canvas.width,canvas.height, columns, rows);
   drawTools.set_ctx(ctx); 
   print_f("Yolza");
 
   draw();
 }
 
-//TODO change way co-ords are stored
+
 function init_state(state) {
   for (let x = 0; x < columns ; x++) {
     for (let y = 0; y < rows; y++) {
@@ -43,7 +44,9 @@ function init_state(state) {
 function sync_state(state, shapes){
   for (const shape of shapes) {
     for(const point of shape.points) {
-      state.set(point, shape.type)
+      state.delete(point.add(shape.pos), shape.type);
+
+      state.set(point.add(shape.pos), shape.type);
     }
   }
 
@@ -57,21 +60,19 @@ function print_state(state) {
   const out = [];
   console.log(`Printing state.....\n`)
   for (const [key,value] of state){
-    out.push("$")
+    out.push(`${key.to_string()} : ${value}`);
   }
-  
-  
+  out.join("\n");
+  console.log(out);
 }
 
 function print_f(string) {
   console.log(string)
 }
 
-
 function draw() {
   drawTools.draw_grid(canvas.width,canvas.height,columns,rows);
   drawTools.draw_state(game_state);
-  
 }
 
 

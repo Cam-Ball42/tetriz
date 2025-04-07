@@ -7,8 +7,13 @@ export default class position {
     this.y = y;
   }
 
+  from_string (str = '0,0)') {
+    let pos = str.split(',');
+    return new position(parseInt(pos[0]),parseInt(pos[1]))
+  }
+
   to_string() {
-    return(`X: ${this.x}, Y: ${this.y}`)
+    return(`${this.x},${this.y}`)
   }
 
   is_equal(position) {
@@ -17,5 +22,12 @@ export default class position {
     } else {
       return false;
     }
+  }
+
+  add(_position){
+    const result = new position();
+    result.x = this.x + _position.x;
+    result.y = this.y + _position.y;
+    return result;
   }
 }

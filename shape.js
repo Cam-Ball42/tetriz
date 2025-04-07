@@ -54,6 +54,9 @@ export default class Shape {
       case "S" :
         this.points = [new Position(0,0), new Position(1,0), new Position(0,1), new Position(-1,1)];
         break;
+      case "Z" :
+        this.points = [new Position(0,0), new Position(-1,0), new Position(0,1), new Position(1,1)];
+        break;
       default:
         break;
     }
