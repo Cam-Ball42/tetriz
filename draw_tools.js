@@ -76,7 +76,9 @@ export function draw_state(state){
  
   for (const [key,value] of state) {
     if (value != 'X'){
-      draw_square(key.x * cell_width, key.y * cell_height, value);
+      let pos= key.split(",");
+      
+      draw_square(parseInt(pos[0]) * cell_width, parseInt(pos[1]) * cell_height, value);
       
     }
 

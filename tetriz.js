@@ -6,24 +6,21 @@ const rows = 20;
 const columns =10;
 
 
-
+let id_count = 0;
 const current_shapes = [];
 const game_state = new Map();
 
 init_state(game_state);
-let test_shape = new Shape("T", new Position(4,7), 3);
-add_shape(test_shape);
+add_shape("I", new Position(4,7));
 
 sync_state(game_state, current_shapes);
 print_state(game_state);
-
-console.log(test_shape.pos.x);
 
 
 const canvas = document.getElementById("canvas");
 let ctx;
 if(canvas.getContext) {
-  ctx = canvas.getContext("2d");
+ctx = canvas.getContext("2d");
   drawTools.init_tools(canvas.width,canvas.height, columns, rows);
   drawTools.set_ctx(ctx); 
   print_f("Yolza");
@@ -36,7 +33,7 @@ function init_state(state) {
   for (let x = 0; x < columns ; x++) {
     for (let y = 0; y < rows; y++) {
       let new_pos = new Position(x, y);
-      state.set(new_pos, "X");
+      state.set(new_pos.to_string(), "X");
     }
     
   }
@@ -44,23 +41,25 @@ function init_state(state) {
 function sync_state(state, shapes){
   for (const shape of shapes) {
     for(const point of shape.points) {
-      state.delete(point.add(shape.pos), shape.type);
 
-      state.set(point.add(shape.pos), shape.type);
+      state.set(point.add(shape.pos).to_string(), shape.type);
     }
   }
 
 }
 
-function add_shape(shape){
-  current_shapes.push(shape);
+function add_shape(type, pos){
+  id_count++;
+  let new_shape = new Shape(type,pos);
+  new_shape.id = id_count;
+  current_shapes.push(new_shape);
 }
 
 function print_state(state) { 
   const out = [];
   console.log(`Printing state.....\n`)
   for (const [key,value] of state){
-    out.push(`${key.to_string()} : ${value}`);
+    out.push(`${key} : ${value}`);
   }
   out.join("\n");
   console.log(out);
