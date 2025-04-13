@@ -41,8 +41,19 @@ for(let y =0; y <canvas_height; y += cell_height) {
   ctx.stroke();
   }
 }
+function roundedRect(x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x, y + radius);
+  ctx.arcTo(x, y + height, x + radius, y + height, radius);
+  ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
+  ctx.arcTo(x + width, y, x + width - radius, y, radius);
+  ctx.arcTo(x, y, x, y + radius, radius);
+  ctx.stroke();
+  ctx.fill();
+}
 
 export function draw_square(x, y, type){
+  ctx.lineWidth = 1.5;
   switch (type) {
     case "O":
       ctx.fillStyle = "yellow";
@@ -69,7 +80,8 @@ export function draw_square(x, y, type){
       ctx.fillStyle= "black";
       break;
   }
-  ctx.fillRect(x, y, cell_width, cell_height);
+  //ctx.fillRect(x, y, cell_width, cell_height, 90);
+  roundedRect(x,y,cell_width,cell_height,5);
 }
 
 export function draw_state(state){

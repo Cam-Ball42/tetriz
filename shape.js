@@ -6,7 +6,7 @@ export default class Shape {
   id;
   points;
 
-  constructor(type, pos, id) {
+  constructor(type, pos) {
     this.type = type;
     this.pos = pos;
     this.init_points(type);

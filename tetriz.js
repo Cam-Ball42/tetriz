@@ -11,7 +11,8 @@ const current_shapes = [];
 const game_state = new Map();
 
 init_state(game_state);
-add_shape("I", new Position(4,7));
+add_shape("T", new Position(4,7));
+move_shape(2,1,current_shapes[0]);
 
 sync_state(game_state, current_shapes);
 print_state(game_state);
@@ -54,6 +55,22 @@ function add_shape(type, pos){
   new_shape.id = id_count;
   current_shapes.push(new_shape);
 }
+
+function move_shape(dirx, diry, shape){
+    let destx = shape.pos.x + dirx;
+    let desty = shape.pos.y + diry; 
+  if(true) { 
+    let dest_pos = `${destx},${desty}`;
+    game_state.set(shape.pos.to_string(), "X");
+    
+    game_state.set(dest_pos, shape.type );
+    shape.pos.move(destx, desty);
+
+
+  }
+}
+
+
 
 function print_state(state) { 
   const out = [];

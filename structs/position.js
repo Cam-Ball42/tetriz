@@ -24,6 +24,12 @@ export default class position {
     }
   }
 
+  move(destx, desty){
+    this.x = destx;
+    this.y = desty;
+  }
+
+
   add(_position){
     const result = new position();
     result.x = this.x + _position.x;
