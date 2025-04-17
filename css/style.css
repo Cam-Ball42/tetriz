@@ -1,0 +1,13 @@
+body {
+  background-color: lightblue;
+}
+
+canvas {
+  background-color: grey;
+}
+
+.game_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

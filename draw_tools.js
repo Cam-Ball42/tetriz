@@ -56,32 +56,32 @@ export function draw_square(x, y, type){
   ctx.lineWidth = 1.5;
   switch (type) {
     case "O":
-      ctx.fillStyle = "yellow";
+      ctx.fillStyle = "#1E48EF";
       break;
     case "T":
-      ctx.fillStyle = "purple";
+      ctx.fillStyle = "#D55C2A";
       break;
     case "L":
-      ctx.fillStyle = "orange";
+      ctx.fillStyle = "#B23DC7";
       break;
     case "I" :
-      ctx.fillStyle = "aqua";
+      ctx.fillStyle = "#DD274D";
       break;
     case "S":
-      ctx.fillStyle = "green";
+      ctx.fillStyle = "#3D4852";
       break;
     case "Z":
-      ctx.fillStyle = "red";
+      ctx.fillStyle = "#F0B2CE";
       break;
     case "J":
-      ctx.fillStyle = "blue";
+      ctx.fillStyle = "#E5B58A";
       break;
     default:
       ctx.fillStyle= "black";
       break;
   }
   //ctx.fillRect(x, y, cell_width, cell_height, 90);
-  roundedRect(x,y,cell_width,cell_height,5);
+  roundedRect(x,y,cell_width,cell_height,7);
 }
 
 export function draw_state(state){

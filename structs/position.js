@@ -28,7 +28,14 @@ export default class position {
     this.x = destx;
     this.y = desty;
   }
+  
+  get_x(){
+    return this.x;
+  }
 
+  get_y(){
+    return this.y;
+  }
 
   add(_position){
     const result = new position();
