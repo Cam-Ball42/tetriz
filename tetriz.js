@@ -115,6 +115,10 @@ function move_shape(dirx, diry, shape) {
   }
 }
 
+function rotate_shape(shape) {
+  shape.rotate_points();
+}
+
 function check_col(shape, dirx, diry) {
   let has_hit = false;
 
@@ -192,6 +196,11 @@ window.addEventListener("keydown", (e) => {
       }
       sync_state(game_state, current_shapes);
       draw();
+      break;
+    case "e":
+      //Rotate
+      rotate_shape(active_shape);
+      sync_state(game_state, current_shapes);
       break;
     default:
       console.log("default");
