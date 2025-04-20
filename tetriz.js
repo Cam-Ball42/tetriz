@@ -61,6 +61,7 @@ function game_loop(current_time) {
 
   if (drop_counter > drop_interval) {
     if (move_shape(0, 1, active_shape) == false) {
+      console.log(check_lines(0,rows));
       active_shape = null;
     }
     sync_state(game_state, current_shapes);
@@ -103,10 +104,11 @@ function spawn_shape() {
   return new_shape;
 }
 
+
 function move_shape(dirx, diry, shape) {
-  let destx = shape.pos.x + dirx;
-  let desty = shape.pos.y + diry;
-  if (check_col(shape, dirx, diry) == false) {
+  if (check_move(shape, dirx, diry) == false) {
+    let destx = shape.pos.x + dirx;
+    let desty = shape.pos.y + diry;
     shape.pos.move(destx, desty);
     return true;
   }
@@ -116,10 +118,50 @@ function move_shape(dirx, diry, shape) {
 }
 
 function rotate_shape(shape) {
-  shape.rotate_points();
+  if (check_rot(shape) == false) {
+    shape.rotate_points();
+    return true;
+  }
+  else {
+    return false;
+  }
 }
 
-function check_col(shape, dirx, diry) {
+function check_rot(shape) {
+  let has_hit = false;
+  let rot_points = shape.get_rotated_points();
+
+  for (let i = 0; i < rot_points.length;i++){
+
+    const destx = rot_points[i].x + shape.pos.x;
+    const desty = rot_points[i].y + shape.pos.y;
+
+    if (!game_state.has(`${destx},${desty}`)){
+      return true;
+    }
+
+    if(game_state.get(`${destx},${desty}`) != "X") {
+
+      let is_self = false;
+      for(let j =0; j < shape.points.length;j++){
+        if(shape.points[j].x + shape.pos.x == destx &&
+          shape.points[j].y + shape.pos.y == desty){
+          is_self = true;
+          break;
+        }
+      }
+
+      if(is_self==false){
+        console.log("hit self");
+        return true;
+      }
+
+    }
+  }
+  return false;
+}
+
+function check_move(shape, dirx, diry) {
   let has_hit = false;
 
   for (let i = 0; i < shape.points.length; i++) {
@@ -153,6 +195,61 @@ function check_col(shape, dirx, diry) {
   return has_hit;
 }
 
+function check_lines(ystart,yend){
+  let full_lines = [];
+  for(let y = ystart; y < yend; y++){
+    let line_full = true;
+    for (let x = 0; x < columns; x++){
+      if (game_state.get(`${x},${y}`) == "X" ){
+        line_full = false;
+        break;
+      }
+    }
+    if (line_full == true){
+      full_lines.push(y);
+      delete_line(y);
+    }
+  }
+  if (full_lines.length > 0) {
+    console.log(`ystart: ${Math.max(...full_lines)}`);
+    shift_lines(Math.max(...full_lines), full_lines.length);
+  }
+  return full_lines;
+}
+
+function delete_line(y){
+  let points_del = 0;
+  for(let i =0; i < current_shapes.length;i++){
+    for(let j =0; j < current_shapes[i].points.length; j++){
+      if(current_shapes[i].points[j].y + current_shapes[i].pos.y == y){
+        current_shapes[i].remove_point(current_shapes[i].points[j]);
+        points_del += 1;
+        j += -1;
+      }
+    }
+  }
+  console.log(`points_del: ${points_del}`);
+}
+
+//TODO find appropriate y_end;
+//Also pretty sure a bug is happening after shapes get 'split'
+function shift_lines(ystart, amount){
+  const moved = []
+  for(let i =0; i < current_shapes.length;i++){
+    for(let j =0; j < current_shapes[i].points.length;j++){
+      if(current_shapes[i].points[j].y + current_shapes[i].pos.y < ystart) {
+        console.log(amount);
+        if (!moved.includes(current_shapes[i])){
+          current_shapes[i].pos.y += amount; 
+          moved.push(current_shapes[i]);
+          
+        }
+        
+      }
+    }
+  }
+
+}
 function print_state(state) {
   const out = [];
   console.log(`Printing state.....\n`)
@@ -166,6 +263,7 @@ function print_state(state) {
 function print_f(string) {
   console.log(string)
 }
+
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -192,6 +290,7 @@ window.addEventListener("keydown", (e) => {
     case "s":
       //Move Down
       if (move_shape(0, 1, active_shape) == false) {
+        console.log(check_lines(0,rows));
         active_shape = null;
       }
       sync_state(game_state, current_shapes);

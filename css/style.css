@@ -11,3 +11,16 @@ canvas {
   align-items: center;
   justify-content: center;
 }
+
+.score_container {
+ 
+  align-items: right;
+}
+
+p {
+  font-family: monospace;
+}
+
+h1 {
+  font-family: monospace;
+}

@@ -30,10 +30,6 @@ export default class Shape {
 
   }
 
-  test() {
-    console.log(`Type : ${this.type}, Pos : ${this.pos.to_string()}`);
-  }
-
   rotate_points() {
     for (let i = 0; i < this.points.length; i++) {
       const orig_x = this.points[i].x
@@ -43,6 +39,22 @@ export default class Shape {
     }
   }
 
+  get_rotated_points() {
+    const rot_points =[];
+    for (let i = 0; i < this.points.length; i++) {
+      let rotated_pos = new Position(this.points[i].y * -1, this.points[i].x);
+      rot_points.push(rotated_pos);
+    }
+    return rot_points;
+  }
+
+  remove_point(pos){
+    for( let i = 0; i < this.points.length; i++){
+      if (pos.is_equal(this.points[i])) {
+        this.points.splice(i,1);
+      }
+    }    
+  }
   init_points(type) {
     switch (type) {
       case "I":
