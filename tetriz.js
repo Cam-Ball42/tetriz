@@ -18,6 +18,14 @@ const current_shapes = [];
 let active_shape;
 const game_state = new Map();
 
+let current_score = 0;
+let current_level = 1;
+const Levels = {
+  1: 1.1
+}
+
+let score_element = document.getElementById('score');
+let level_element = document.getElementById('level');
 init_state(game_state);
 active_shape = spawn_shape();
 //active_shape = add_shape("Z", new Position(4, 2));
@@ -25,9 +33,6 @@ active_shape = spawn_shape();
 
 sync_state(game_state, current_shapes);
 print_state(game_state);
-
-game_loop();
-
 const canvas = document.getElementById("canvas");
 let ctx;
 if (canvas.getContext) {
@@ -38,6 +43,9 @@ if (canvas.getContext) {
 
   draw();
 }
+game_loop();
+
+
 
 function game_loop(current_time) {
 
@@ -61,15 +69,24 @@ function game_loop(current_time) {
 
   if (drop_counter > drop_interval) {
     if (move_shape(0, 1, active_shape) == false) {
-      console.log(check_lines(0,rows));
+      let full_lines = check_lines(0,rows);
+      current_score += full_lines.length;
       active_shape = null;
     }
     sync_state(game_state, current_shapes);
     drop_counter = 0;
 
   }
+  
+  console.log(current_score);
+  updateScore();
   draw();
   requestAnimationFrame(game_loop);
+
+}
+
+function updateScore() {
+  score_element.innerText = current_score;
 
 }
 
@@ -79,7 +96,6 @@ function init_state(state) {
       let new_pos = new Position(x, y);
       state.set(new_pos.to_string(), "X");
     }
-
   }
 }
 
@@ -100,7 +116,7 @@ function add_shape(type, pos) {
 }
 function spawn_shape() {
   let randI = Math.floor(Math.random() * 7);
-  const new_shape = add_shape(shape_types[randI], new Position(5, 1));
+  const new_shape = add_shape(shape_types[randI], new Position(4, -1));
   return new_shape;
 }
 
@@ -152,7 +168,6 @@ function check_rot(shape) {
       }
 
       if(is_self==false){
-        console.log("hit self");
         return true;
       }
 
@@ -228,27 +243,20 @@ function delete_line(y){
       }
     }
   }
-  console.log(`points_del: ${points_del}`);
 }
-
-//TODO find appropriate y_end;
-//Also pretty sure a bug is happening after shapes get 'split'
+//TODO something wrong here? 
 function shift_lines(ystart, amount){
   const moved = []
   for(let i =0; i < current_shapes.length;i++){
     for(let j =0; j < current_shapes[i].points.length;j++){
       if(current_shapes[i].points[j].y + current_shapes[i].pos.y < ystart) {
-        console.log(amount);
-        if (!moved.includes(current_shapes[i])){
-          current_shapes[i].pos.y += amount; 
-          moved.push(current_shapes[i]);
-          
+        if (!moved.includes(current_shapes[i].points[j])){
+          current_shapes[i].points[j].y += amount; 
+          moved.push(current_shapes[i].points[j]);
         }
-        
       }
     }
   }
-
 }
 function print_state(state) {
   const out = [];
@@ -276,7 +284,6 @@ window.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "a":
       //A : Move left
-      console.log("A Pressed");
       move_shape(-1, 0, active_shape);
       sync_state(game_state, current_shapes);
       draw();
@@ -290,7 +297,7 @@ window.addEventListener("keydown", (e) => {
     case "s":
       //Move Down
       if (move_shape(0, 1, active_shape) == false) {
-        console.log(check_lines(0,rows));
+        current_score += (check_lines(0,rows)).length;
         active_shape = null;
       }
       sync_state(game_state, current_shapes);
