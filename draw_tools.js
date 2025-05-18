@@ -56,25 +56,25 @@ export function draw_square(x, y, type){
   ctx.lineWidth = 1.5;
   switch (type) {
     case "O":
-      ctx.fillStyle = "#1E48EF";
+      ctx.fillStyle = "#b62037";
       break;
     case "T":
-      ctx.fillStyle = "#D55C2A";
+      ctx.fillStyle = "#cb116a";
       break;
     case "L":
-      ctx.fillStyle = "#B23DC7";
+      ctx.fillStyle = "#ff3200";
       break;
     case "I" :
-      ctx.fillStyle = "#DD274D";
+      ctx.fillStyle = "#ff0027";
       break;
     case "S":
-      ctx.fillStyle = "#3D4852";
+      ctx.fillStyle = "#eb388e";
       break;
     case "Z":
-      ctx.fillStyle = "#F0B2CE";
+      ctx.fillStyle = "#eb388e";
       break;
     case "J":
-      ctx.fillStyle = "#E5B58A";
+      ctx.fillStyle = "#990089";
       break;
     default:
       ctx.fillStyle= "black";

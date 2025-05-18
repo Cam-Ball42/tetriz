@@ -1,24 +1,50 @@
 body {
-  background-color: lightblue;
+  background-color: #27548A;
 }
 
 canvas {
-  background-color: silver;
+  /* background-color: #F5EEDC; */
+  background-color: white;
+  border-style: solid;
+  border-radius: 20px;
 }
 
-.game_container {
-  display: flex;
-  align-items: center;
+.game-container {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: center;
+  margin:auto;
 }
 
-.score_container {
- 
-  align-items: right;
+.side-panel {
+  display:flex;
+  flex-direction: column;
+  justify-self: center;
+  background-color: #DDA853;
+  width: 200px;
+  border-style: solid;
+  border-radius: 25px;
+
 }
 
-p {
-  font-family: monospace;
+.score {
+  font-size: 45px;
+  justify-content: center;
+  text-align: center;
+  
+}
+
+.game-container>div {
+  background-color: f1f1f1;
+  margin: 20px;
+}
+
+.title {
+  display: flex;
+  font-size: 30px;
+  justify-content: center;
+  text-align: center;
 }
 
 h1 {

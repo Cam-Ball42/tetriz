@@ -24,7 +24,7 @@ const Levels = {
   1: 1.1
 }
 
-let score_element = document.getElementById('score');
+let score_element = document.getElementById('cur-score');
 let level_element = document.getElementById('level');
 init_state(game_state);
 active_shape = spawn_shape();
@@ -209,7 +209,8 @@ function check_move(shape, dirx, diry) {
   }
   return has_hit;
 }
-
+//Need to move delete line into own function and sort it somewhere else
+//When full lines are split, there is a gap. Maybe need to delete line and shift each time
 function check_lines(ystart,yend){
   let full_lines = [];
   for(let y = ystart; y < yend; y++){
