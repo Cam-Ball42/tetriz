@@ -1,6 +1,7 @@
 import * as drawTools from './draw_tools.js';
 import Position from './structs/position.js';
 import Shape from './shape.js';
+import * as leaderboard from './leaderboard.js';
 let delta_time = 0;
 let last_time = 0;
 let drop_counter = 0;
@@ -17,6 +18,8 @@ let id_count = 0;
 const current_shapes = [];
 let active_shape;
 const game_state = new Map();
+
+let current_leaderboard;
 
 let current_score = 0;
 let current_level = 1;
@@ -43,9 +46,9 @@ if (canvas.getContext) {
 
   draw();
 }
+// leaderboard.get_json();
+
 game_loop();
-
-
 
 function game_loop(current_time) {
 
@@ -223,6 +226,7 @@ function check_lines(ystart,yend){
     }
     if (line_full == true){
       full_lines.push(y);
+      drawTools.flash_line(y);
       delete_line(y);
     }
   }

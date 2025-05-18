@@ -11,6 +11,8 @@ let cell_width;
 
 export function set_ctx(_ctx){
   ctx = _ctx;
+  //Fix for fuzzyness on moblie?
+  //ctx.translate(0.5, 0.5)
 }
 export function init_tools(_canvas_width,_canvas_height,_columns,
                               _rows){
@@ -20,11 +22,12 @@ export function init_tools(_canvas_width,_canvas_height,_columns,
   rows = _rows;
   cell_height = canvas_height/rows;
   cell_width = canvas_width/columns;
+
 }
 
 
 export function draw_grid(){
-ctx.lineWidth = 0.5;
+ctx.lineWidth = 0.15;
 for(let x =0; x < canvas_width; x += cell_width) {
   ctx.beginPath();
   ctx.moveTo(x, 0);
@@ -52,29 +55,37 @@ function roundedRect(x, y, width, height, radius) {
   ctx.fill();
 }
 
+export async function flash_line(y){
+  for(let i = 0 ; i < 1; i+=0.1){
+    ctx.fillStyle = `rgb(1,1,1,i)`;
+    ctx.fillRect(0, y, canvas_width, cell_height);
+    await new Promise(r => setTimeout(r,8000));
+  }
+}
+
 export function draw_square(x, y, type){
   ctx.lineWidth = 1.5;
   switch (type) {
     case "O":
-      ctx.fillStyle = "#b62037";
+      ctx.fillStyle = "#ff5500";
       break;
     case "T":
-      ctx.fillStyle = "#cb116a";
+      ctx.fillStyle = "#6d0011";
       break;
     case "L":
-      ctx.fillStyle = "#ff3200";
+      ctx.fillStyle = "#ffe600";
       break;
     case "I" :
-      ctx.fillStyle = "#ff0027";
+      ctx.fillStyle = "#2480ff";
       break;
     case "S":
-      ctx.fillStyle = "#eb388e";
+      ctx.fillStyle = "#ff00bb";
       break;
     case "Z":
-      ctx.fillStyle = "#eb388e";
+      ctx.fillStyle = "#ff9600";
       break;
     case "J":
-      ctx.fillStyle = "#990089";
+      ctx.fillStyle = "#f90009";
       break;
     default:
       ctx.fillStyle= "black";

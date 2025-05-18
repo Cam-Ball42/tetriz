@@ -1,20 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+
 body {
-  background-color: #27548A;
+  background-color: royalblue;
 }
 
 canvas {
   /* background-color: #F5EEDC; */
-  background-color: white;
+  background-color: rgb(192,192,192, 0.6);
   border-style: solid;
   border-radius: 20px;
+  box-shadow: dodgerblue 0px 20px 30px -10px;
 }
 
+ul {
+  /* border-style: solid; */
+}
+li {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.chango-regular {
+  font-family: "Chango", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 .game-container {
   display:flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
   margin:auto;
+  height : 100%
 }
 
 .side-panel {
@@ -25,6 +42,8 @@ canvas {
   width: 200px;
   border-style: solid;
   border-radius: 25px;
+  height: 500px;
+  box-shadow: dodgerblue 5px 20px 30px -10px;
 
 }
 
@@ -32,7 +51,7 @@ canvas {
   font-size: 45px;
   justify-content: center;
   text-align: center;
-  
+  font-family: "Monaco", monospace;
 }
 
 .game-container>div {
@@ -40,13 +59,39 @@ canvas {
   margin: 20px;
 }
 
-.title {
+@keyframes swell{
+  15%,
+  85%{
+    scale: 100%;
+  }
+  50%{
+    scale: 110%;
+  }
+}
+
+.title1 {
   display: flex;
   font-size: 30px;
   justify-content: center;
   text-align: center;
+  font-family: "Chango", chango-regular;
+  text-shadow: 1px 1px 2px pink;
+  animation-duration: 8s;
+  animation-name: swell;
+  animation-iteration-count: infinite;
 }
-
+.title2 {
+  display: flex;
+  font-size: 20px;
+  justify-content: center;
+  text-align: center;
+  text-shadow: 1px 1px 2px pink;
+  font-family: "Chango", chango-regular;
+}
+.help{
+  text-align: center;
+  justify-content: center;
+}
 h1 {
-  font-family: monospace;
+  font-family: "Monaco", monospace;
 }

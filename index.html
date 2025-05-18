@@ -9,18 +9,26 @@
 </head>
 
 <body>
-  <p class="title">This is Tetriz</p>
+  <p class="title1">Tetriz</p>
   <div class="game-container">
     <div class="side-panel">
-      <h1 class="title">Score</h1>
+      <h1 class="title2">Score</h1>
       <p id="cur-score" class="score"></p>
+      <p class="help">
+        -Help-<br />
+        Use WASD to move shape<br />
+        Use E to rotate shape<br />
+      </p>
     </div>
     <div>
       <canvas id="canvas" width="300" height="600"></canvas>
+
       <script type="module" src="tetriz.js"></script>
     </div>
-    <div id="leaderboard" class="side-panel">
-      <h1 class="title">leaderboard</h1>
+    <div class="side-panel">
+      <h1 class="title2">leaderboard</h1>
+      <ul id="leaderboard">
+      </ul>
     </div>
   </div>
 </body>
