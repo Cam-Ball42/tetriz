@@ -193,8 +193,6 @@ function check_move(shape, dirx, diry) {
   }
   return false;
 }
-//Need to move delete line into own function and sort it somewhere else
-//When full lines are split, there is a gap. Maybe need to delete line and shift each time
 function check_lines(ystart, yend) {
   const full_lines = [];
   for (let y = ystart; y < yend; y++) {
@@ -236,7 +234,6 @@ function delete_line(y) {
     }
   }
 }
-//TODO something wrong here?
 function shift_lines(ystart, amount) {
   const moved = [];
   for (let i = 0; i < current_shapes.length; i++) {
