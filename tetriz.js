@@ -67,7 +67,8 @@ function game_loop(current_time) {
 
   if (drop_counter > drop_interval) {
     if (move_shape(0, 1, active_shape) === false) {
-      current_score += check_lines(0, rows).length;
+      // current_score += check_lines(0, rows).length;
+      remove_full_lines(check_lines(0, rows));
       active_shape = null;
     }
     sync_state(game_state, current_shapes);
@@ -206,15 +207,21 @@ function check_lines(ystart, yend) {
     }
     if (line_full === true) {
       full_lines.push(y);
-      drawTools.flash_line(y);
-      delete_line(y);
     }
   }
-  if (full_lines.length > 0) {
-    console.log(`ystart: ${Math.max(...full_lines)}`);
-    shift_lines(Math.max(...full_lines), full_lines.length);
-  }
   return full_lines;
+}
+
+function remove_full_lines(full_lines) {
+  if (full_lines.length === 0) {
+    return;
+  }
+  delete_line(full_lines[0]);
+  shift_lines(full_lines[0], 1);
+
+  if (full_lines.length > 1) {
+    remove_full_lines(full_lines.slice(1));
+  }
 }
 
 function delete_line(y) {
@@ -270,8 +277,8 @@ window.addEventListener(
       case "s":
         //Move Down
         if (move_shape(0, 1, active_shape) === false) {
-          current_score += check_lines(0, rows).length;
           active_shape = null;
+          remove_full_lines(check_lines(0, rows));
         }
         sync_state(game_state, current_shapes);
         draw();
@@ -287,7 +294,3 @@ window.addEventListener(
   },
   true,
 );
-
-func testchange(){
-
-}
