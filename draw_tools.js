@@ -7,41 +7,36 @@ let rows;
 let cell_height;
 let cell_width;
 
-
-
-export function set_ctx(_ctx){
+export function set_ctx(_ctx) {
   ctx = _ctx;
   //Fix for fuzzyness on moblie?
   //ctx.translate(0.5, 0.5)
 }
-export function init_tools(_canvas_width,_canvas_height,_columns,
-                              _rows){
+export function init_tools(_canvas_width, _canvas_height, _columns, _rows) {
   canvas_height = _canvas_height;
   canvas_width = _canvas_width;
   columns = _columns;
   rows = _rows;
-  cell_height = canvas_height/rows;
-  cell_width = canvas_width/columns;
-
+  cell_height = canvas_height / rows;
+  cell_width = canvas_width / columns;
 }
 
-
-export function draw_grid(){
-ctx.lineWidth = 0.15;
-for(let x =0; x < canvas_width; x += cell_width) {
-  ctx.beginPath();
-  ctx.moveTo(x, 0);
-  ctx.lineTo(x, canvas_height);
-  ctx.closePath();
-  ctx.stroke();
+export function draw_grid() {
+  ctx.lineWidth = 0.15;
+  for (let x = 0; x < canvas_width; x += cell_width) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas_height);
+    ctx.closePath();
+    ctx.stroke();
   }
 
-for(let y =0; y <canvas_height; y += cell_height) {
-  ctx.beginPath();
-  ctx.moveTo(0, y);
-  ctx.lineTo(canvas_width, y);
-  ctx.closePath();
-  ctx.stroke();
+  for (let y = 0; y < canvas_height; y += cell_height) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas_width, y);
+    ctx.closePath();
+    ctx.stroke();
   }
 }
 function roundedRect(x, y, width, height, radius) {
@@ -55,15 +50,15 @@ function roundedRect(x, y, width, height, radius) {
   ctx.fill();
 }
 
-export async function flash_line(y){
-  for(let i = 0 ; i < 1; i+=0.1){
-    ctx.fillStyle = `rgb(1,1,1,i)`;
+export async function flash_line(y) {
+  for (let i = 0; i < 1; i += 0.1) {
+    ctx.fillStyle = "rgb(1,1,1,i)";
     ctx.fillRect(0, y, canvas_width, cell_height);
-    await new Promise(r => setTimeout(r,8000));
+    await new Promise((r) => setTimeout(r, 8000));
   }
 }
 
-export function draw_square(x, y, type){
+export function draw_square(x, y, type) {
   ctx.lineWidth = 1.5;
   switch (type) {
     case "O":
@@ -75,7 +70,7 @@ export function draw_square(x, y, type){
     case "L":
       ctx.fillStyle = "#ffe600";
       break;
-    case "I" :
+    case "I":
       ctx.fillStyle = "#2480ff";
       break;
     case "S":
@@ -88,24 +83,23 @@ export function draw_square(x, y, type){
       ctx.fillStyle = "#f90009";
       break;
     default:
-      ctx.fillStyle= "black";
+      ctx.fillStyle = "black";
       break;
   }
   //ctx.fillRect(x, y, cell_width, cell_height, 90);
-  roundedRect(x,y,cell_width,cell_height,7);
+  roundedRect(x, y, cell_width, cell_height, 7);
 }
 
-export function draw_state(state){
- 
-  for (const [key,value] of state) {
-    if (value != 'X'){
-      let pos= key.split(",");
-      
-      draw_square(parseInt(pos[0]) * cell_width, parseInt(pos[1]) * cell_height, value);
-      
-    }
+export function draw_state(state) {
+  for (const [key, value] of state) {
+    if (value !== "X") {
+      const pos = key.split(",");
 
-  } 
-    
-  
+      draw_square(
+        Number.parseInt(pos[0]) * cell_width,
+        Number.parseInt(pos[1]) * cell_height,
+        value,
+      );
+    }
+  }
 }

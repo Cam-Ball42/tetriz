@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Chango&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
 
 body {
   background-color: royalblue;
@@ -6,7 +6,7 @@ body {
 
 canvas {
   /* background-color: #F5EEDC; */
-  background-color: rgb(192,192,192, 0.6);
+  background-color: rgb(192, 192, 192, 0.6);
   border-style: solid;
   border-radius: 20px;
   box-shadow: dodgerblue 0px 20px 30px -10px;
@@ -26,25 +26,24 @@ li {
   font-style: normal;
 }
 .game-container {
-  display:flex;
+  display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  margin:auto;
-  height : 100%
+  margin: auto;
+  height: 100%;
 }
 
 .side-panel {
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-self: center;
-  background-color: #DDA853;
+  background-color: #dda853;
   width: 200px;
   border-style: solid;
   border-radius: 25px;
   height: 500px;
   box-shadow: dodgerblue 5px 20px 30px -10px;
-
 }
 
 .score {
@@ -54,17 +53,17 @@ li {
   font-family: "Monaco", monospace;
 }
 
-.game-container>div {
+.game-container > div {
   background-color: f1f1f1;
   margin: 20px;
 }
 
-@keyframes swell{
+@keyframes swell {
   15%,
-  85%{
+  85% {
     scale: 100%;
   }
-  50%{
+  50% {
     scale: 110%;
   }
 }
@@ -74,7 +73,7 @@ li {
   font-size: 30px;
   justify-content: center;
   text-align: center;
-  font-family: "Chango", chango-regular;
+  font-family: "Chango", chango-regular, monospace;
   text-shadow: 1px 1px 2px pink;
   animation-duration: 8s;
   animation-name: swell;
@@ -86,9 +85,9 @@ li {
   justify-content: center;
   text-align: center;
   text-shadow: 1px 1px 2px pink;
-  font-family: "Chango", chango-regular;
+  font-family: "Chango", chango-regular, monospace;
 }
-.help{
+.help {
   text-align: center;
   justify-content: center;
 }
