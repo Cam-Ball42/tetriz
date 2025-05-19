@@ -4,12 +4,18 @@ body {
   background-color: royalblue;
 }
 
-canvas {
+.game_canvas {
   /* background-color: #F5EEDC; */
   background-color: rgb(192, 192, 192, 0.6);
   border-style: solid;
   border-radius: 20px;
   box-shadow: dodgerblue 0px 20px 30px -10px;
+  position: absolute;
+}
+
+.fx_canvas {
+  position: absolute;
+  z-index: 10;
 }
 
 ul {
@@ -59,8 +65,8 @@ li {
 }
 
 @keyframes swell {
-  15%,
-  85% {
+  5%,
+  95% {
     scale: 100%;
   }
   50% {

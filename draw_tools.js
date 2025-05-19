@@ -1,4 +1,5 @@
 let ctx;
+let fxctx;
 
 let canvas_height;
 let canvas_width;
@@ -6,6 +7,12 @@ let columns;
 let rows;
 let cell_height;
 let cell_width;
+let delta_time = 0;
+
+//Init FX
+export function set_fxctx(_fxctx) {
+  fxctx = _fxctx;
+}
 
 export function set_ctx(_ctx) {
   ctx = _ctx;
@@ -50,12 +57,20 @@ function roundedRect(x, y, width, height, radius) {
   ctx.fill();
 }
 
-export async function flash_line(y) {
-  for (let i = 0; i < 1; i += 0.1) {
-    ctx.fillStyle = "rgb(1,1,1,i)";
-    ctx.fillRect(0, y, canvas_width, cell_height);
-    await new Promise((r) => setTimeout(r, 8000));
+export function flash_line_anim(y) {
+  let a = 0;
+  function animate(timestamp) {
+    fxctx.fillStyle = `rgba(${a},0,0,0.5)`;
+    fxctx.fillRect(0, y * cell_height, canvas_width, cell_height);
+    a += 5;
+    if (a <= 255) {
+      requestAnimationFrame(animate);
+    } else {
+      fxctx.clearRect(0, y * cell_height, canvas_width, cell_height);
+    }
+    // console.log(a);
   }
+  requestAnimationFrame(animate);
 }
 
 export function draw_square(x, y, type) {

@@ -33,15 +33,21 @@ active_shape = spawn_shape();
 //active_shape = add_shape("Z", new Position(4, 2));
 
 sync_state(game_state, current_shapes);
-const canvas = document.getElementById("canvas");
+
+const canvas = document.getElementById("game_canvas");
 let ctx;
+const fx_canvas = document.getElementById("fx_canvas");
+let fxctx;
 if (canvas.getContext) {
   ctx = canvas.getContext("2d");
   drawTools.init_tools(canvas.width, canvas.height, columns, rows);
   drawTools.set_ctx(ctx);
+  fxctx = fx_canvas.getContext("2d");
+  drawTools.set_fxctx(fxctx);
 
   draw();
 }
+//init fx ctx
 // leaderboard.get_json();
 
 game_loop();
@@ -67,7 +73,6 @@ function game_loop(current_time) {
 
   if (drop_counter > drop_interval) {
     if (move_shape(0, 1, active_shape) === false) {
-      // current_score += check_lines(0, rows).length;
       remove_full_lines(check_lines(0, rows));
       active_shape = null;
     }
@@ -214,8 +219,10 @@ function remove_full_lines(full_lines) {
   if (full_lines.length === 0) {
     return;
   }
+  drawTools.flash_line_anim(full_lines[0]);
   delete_line(full_lines[0]);
   shift_lines(full_lines[0], 1);
+  current_score += 1;
 
   if (full_lines.length > 1) {
     remove_full_lines(full_lines.slice(1));
@@ -277,6 +284,7 @@ window.addEventListener(
           active_shape = null;
           remove_full_lines(check_lines(0, rows));
         }
+        current_score += 1;
         sync_state(game_state, current_shapes);
         draw();
         break;
