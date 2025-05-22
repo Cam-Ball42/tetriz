@@ -48,8 +48,8 @@ if (canvas.getContext) {
   draw();
 }
 //init fx ctx
-// leaderboard.get_json();
-
+leaderboard.refresh_leaderboard();
+// leaderboard.add_highscore("cam", 420);
 game_loop();
 
 function game_loop(current_time) {
