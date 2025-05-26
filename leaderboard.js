@@ -1,15 +1,39 @@
 const ScoreList = document.getElementById("leaderboard");
 let scores;
 
+function sort_scores() {
+  scores.entries = scores.entries.sort((a, b) => b.score - a.score);
+}
+
+export function determine_high_score(score) {
+  sort_scores();
+
+  let highest_spot = 11;
+  for (let i = scores.entries.length - 1; i >= 0; i--) {
+    if (score > scores.entries[i].score) {
+      highest_spot = i;
+    }
+  }
+  if (highest_spot < 10) {
+    return true;
+  }
+}
+
+export function get_scores() {
+  sort_scores();
+  return scores.entries;
+}
+
 export function refresh_leaderboard() {
   update_data();
 }
 function update_live_leaderboard() {
-  console.log(scores);
+  sort_scores();
+  ScoreList.innerHTML = "";
   for (const key of scores.entries) {
     const element = document.createElement("li");
     element.innerText = `${key.name} : ${key.score}`;
-    leaderboard.appendChild(element);
+    ScoreList.appendChild(element);
   }
 }
 function log_scores() {
@@ -23,8 +47,6 @@ function update_data() {
     if (req.readyState === XMLHttpRequest.DONE) {
       scores = req.response.record;
       update_live_leaderboard();
-      log_scores();
-      add_highscore("test", 69);
     }
   };
   req.open(
@@ -41,20 +63,23 @@ function update_data() {
 }
 
 export function add_highscore(name, score) {
-  if (!scores.entries) {
-    scores.entries = [];
-  }
   const new_entry = { name, score };
   scores.entries.push(new_entry);
-  send_hscore_req();
+  sort_scores();
+
+  if (scores.entries.length > 10) {
+    scores.entries = scores.entries.slice(0, 10);
+  }
+  send_hscore_change();
 }
 
-function send_hscore_req() {
+function send_hscore_change() {
   const req = new XMLHttpRequest();
 
   req.onreadystatechange = () => {
     if (req.readyState === XMLHttpRequest.DONE) {
       console.log("Highscore added!");
+      refresh_leaderboard();
     }
   };
 

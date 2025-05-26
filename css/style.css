@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
 
 body {
-  background-color: royalblue;
+  background-color: black;
 }
 
 .game_canvas {
@@ -9,7 +9,7 @@ body {
   background-color: rgb(192, 192, 192, 0.6);
   border-style: solid;
   border-radius: 20px;
-  box-shadow: dodgerblue 0px 20px 30px -10px;
+  box-shadow: white 0px 20px 20px -10px;
   position: absolute;
 }
 
@@ -22,8 +22,7 @@ ul {
   /* border-style: solid; */
 }
 li {
-  border-style: solid;
-  border-width: 1px;
+  font-family: "Monaco", monospace;
 }
 
 .chango-regular {
@@ -49,7 +48,7 @@ li {
   border-style: solid;
   border-radius: 25px;
   height: 500px;
-  box-shadow: dodgerblue 5px 20px 30px -10px;
+  box-shadow: white 0px 10px 30px -5px;
 }
 
 .score {
@@ -80,6 +79,7 @@ li {
   justify-content: center;
   text-align: center;
   font-family: "Chango", chango-regular, monospace;
+  color: white;
   text-shadow: 1px 1px 2px pink;
   animation-duration: 8s;
   animation-name: swell;
@@ -96,6 +96,7 @@ li {
 .help {
   text-align: center;
   justify-content: center;
+  font-family: "Monaco", monospace;
 }
 h1 {
   font-family: "Monaco", monospace;

@@ -6,6 +6,7 @@ let delta_time = 0;
 let last_time = 0;
 let drop_counter = 0;
 const drop_interval = 500;
+let game_over = false;
 
 const debug_positions = [];
 
@@ -16,23 +17,17 @@ const shape_types = ["T", "L", "J", "O", "Z", "S", "I"];
 
 const current_shapes = [];
 let active_shape;
+const spawn_position = new Position(4, -1);
 const game_state = new Map();
 
 let current_leaderboard;
 
 let current_score = 0;
-// let current_level = 1;
-// const Levels = {
-//   1: 1.1,
-// };
 
 const score_element = document.getElementById("cur-score");
 const level_element = document.getElementById("level");
-init_state(game_state);
-active_shape = spawn_shape();
-//active_shape = add_shape("Z", new Position(4, 2));
 
-sync_state(game_state, current_shapes);
+init_state(game_state);
 
 const canvas = document.getElementById("game_canvas");
 let ctx;
@@ -74,6 +69,15 @@ function game_loop(current_time) {
   if (drop_counter > drop_interval) {
     if (move_shape(0, 1, active_shape) === false) {
       remove_full_lines(check_lines(0, rows));
+      for (const point of active_shape.points) {
+        if (
+          point.x + active_shape.pos.x === 4 &&
+          active_shape.pos.y + point.y === 0
+        ) {
+          game_over = true;
+        }
+      }
+
       active_shape = null;
     }
     sync_state(game_state, current_shapes);
@@ -82,9 +86,41 @@ function game_loop(current_time) {
 
   updateScore();
   draw();
-  requestAnimationFrame(game_loop);
+  if (game_over === false) {
+    requestAnimationFrame(game_loop);
+  } else {
+    handle_game_over();
+  }
 }
 
+function handle_game_over() {
+  if (leaderboard.determine_high_score(current_score) === true) {
+    let name = prompt("Please enter a name for your highscore! : ", "name");
+    console.log(name);
+    if (name.length !== 0 && name !== null) {
+      leaderboard.add_highscore(name, current_score);
+      alert("Highscore added!");
+    }
+
+    const again = confirm("Do you want to play again?");
+    if (again === true) {
+      start_game();
+    }
+  } else {
+    const again = confirm("Do you want to play again?");
+    if (again === true) {
+      start_game();
+    }
+  }
+}
+function start_game() {
+  current_score = 0;
+  init_state(game_state);
+  current_shapes.length = 0;
+  game_over = false;
+  draw();
+  requestAnimationFrame(game_loop);
+}
 function updateScore() {
   score_element.innerText = current_score;
 }
@@ -115,7 +151,10 @@ function add_shape(type, pos) {
 }
 function spawn_shape() {
   const randI = Math.floor(Math.random() * 7);
-  const new_shape = add_shape(shape_types[randI], new Position(4, -1));
+  const new_shape = add_shape(
+    shape_types[randI],
+    new Position(spawn_position.x, spawn_position.y),
+  );
   return new_shape;
 }
 
@@ -263,7 +302,7 @@ function draw() {
 }
 
 window.addEventListener(
-  "keydown",
+  "keypress",
   (e) => {
     switch (e.key) {
       case "a":
