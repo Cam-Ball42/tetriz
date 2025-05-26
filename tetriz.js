@@ -18,23 +18,23 @@ const columns = 10;
 let current_leaderboard;
 
 let current_score = 0;
+let lines_cleared = 0;
 
 const score_element = document.getElementById("cur-score");
-const level_element = document.getElementById("level");
+const level_element = document.getElementById("cur-level");
 
 const game_grid = new Grid();
 game_grid.init_state();
 
 const canvas = document.getElementById("game_canvas");
-let ctx;
 const fx_canvas = document.getElementById("fx_canvas");
-let fxctx;
+const bg_canvas = document.getElementById("background-canvas");
+const ctx = canvas.getContext("2d");
 if (canvas.getContext) {
-  ctx = canvas.getContext("2d");
   drawTools.init_tools(canvas.width, canvas.height, columns, rows);
-  drawTools.set_ctx(ctx);
-  fxctx = fx_canvas.getContext("2d");
-  drawTools.set_fxctx(fxctx);
+  const fxctx = fx_canvas.getContext("2d");
+  const bgctx = bg_canvas.getContext("2d");
+  drawTools.set_contexts(ctx, fxctx, bgctx);
 
   draw();
 }
@@ -64,15 +64,7 @@ function game_loop(current_time) {
 
   if (drop_counter > drop_interval) {
     if (game_grid.move_shape(0, 1, game_grid.active_shape) === false) {
-      game_grid.remove_full_lines(game_grid.check_lines(0, rows));
-      for (const point of game_grid.active_shape.points) {
-        if (
-          point.x + game_grid.active_shape.pos.x === 4 &&
-          game_grid.active_shape.pos.y + point.y === 0
-        ) {
-          game_over = true;
-        }
-      }
+      on_hit_down();
 
       game_grid.active_shape = null;
     }
@@ -89,9 +81,44 @@ function game_loop(current_time) {
   }
 }
 
+function on_hit_down() {
+  const full_lines = game_grid.check_lines(0, rows);
+  if (full_lines !== null) {
+    current_score += full_lines.length * 40;
+    lines_cleared += full_lines.length;
+
+    game_grid.remove_full_lines(game_grid.check_lines(0, rows));
+    //Check for game over, definately need to fix
+    for (const point of game_grid.active_shape.points) {
+      if (
+        point.x + game_grid.active_shape.pos.x === 4 &&
+        game_grid.active_shape.pos.y + point.y === 0
+      ) {
+        game_over = true;
+      }
+    }
+  }
+}
+function add_score() {
+  switch (lines_cleared) {
+    case 1:
+      return 40 * estimate_level();
+    case 2:
+      return 100 * estimate_level();
+    case 3:
+      return 300 * estimate_level();
+    case 4:
+      return 1200 * estimate_level();
+    default:
+      return 0;
+  }
+}
+function estimate_level() {
+  return Math.floor(lines_cleared / 10) + 1;
+}
 function handle_game_over() {
   if (leaderboard.determine_high_score(current_score) === true) {
-    let name = prompt("Please enter a name for your highscore! : ", "name");
+    const name = prompt("Please enter a name for your highscore! : ", "name");
     console.log(name);
     if (name.length !== 0 && name !== null) {
       leaderboard.add_highscore(name, current_score);
@@ -110,6 +137,7 @@ function handle_game_over() {
   }
 }
 function start_game() {
+  lines_cleared = 0;
   current_score = 0;
   game_grid.init_state(game_grid.game_state);
   game_grid.current_shapes.length = 0;
@@ -119,6 +147,7 @@ function start_game() {
 }
 function updateScore() {
   score_element.innerText = current_score;
+  level_element.innerText = estimate_level();
 }
 
 function draw() {
@@ -146,8 +175,7 @@ window.addEventListener(
       case "s":
         //Move Down
         if (game_grid.move_shape(0, 1, game_grid.active_shape) === false) {
-          game_grid.set_active_shape(null);
-          game_grid.remove_full_lines(game_grid.check_lines(0, rows));
+          on_hit_down();
         }
         current_score += 1;
         game_grid.sync_state(game_grid.game_state, game_grid.current_shapes);

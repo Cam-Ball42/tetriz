@@ -1,5 +1,6 @@
 let ctx;
 let fxctx;
+let bgctx;
 
 let canvas_height;
 let canvas_width;
@@ -7,15 +8,14 @@ let columns;
 let rows;
 let cell_height;
 let cell_width;
-let delta_time = 0;
 
 //Init FX
-export function set_fxctx(_fxctx) {
-  fxctx = _fxctx;
-}
+export function set_fxctx(_fxctx) {}
 
-export function set_ctx(_ctx) {
+export function set_contexts(_ctx, _fxctx, _bgctx) {
   ctx = _ctx;
+  fxctx = _fxctx;
+  bgctx = _bgctx;
   //Fix for fuzzyness on moblie?
   //ctx.translate(0.5, 0.5)
 }
@@ -118,3 +118,7 @@ export function draw_state(state) {
     }
   }
 }
+
+//DRAW BACKGROUND
+
+// export function

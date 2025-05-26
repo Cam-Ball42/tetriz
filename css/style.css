@@ -4,6 +4,12 @@ body {
   background-color: black;
 }
 
+.background-canvas {
+  position: absolute;
+  z-index: -10;
+  height: 100%;
+  width: 100%;
+}
 .game_canvas {
   /* background-color: #F5EEDC; */
   background-color: rgb(192, 192, 192, 0.6);
@@ -52,7 +58,7 @@ li {
 }
 
 .score {
-  font-size: 45px;
+  font-size: 25px;
   justify-content: center;
   text-align: center;
   font-family: "Monaco", monospace;
