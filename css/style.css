@@ -2,13 +2,18 @@
 
 body {
   background-color: black;
+	overflow-y: hidden;
+	overflow-x: hidden;
 }
 
 .background-canvas {
-  position: absolute;
-  z-index: -10;
-  height: 100%;
-  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  display: block;
+  /* height: 100vw; */
+  /* width: 100vw; */
 }
 .game_canvas {
   /* background-color: #F5EEDC; */
